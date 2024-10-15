@@ -41,6 +41,24 @@ const Products = () => {
     fetchProducts();
   }, []);
 
+  const handleDeduct = async (amount: number): Promise<void> => {
+    if (!selectedProduct) return;
+    
+    try {
+      // Implement the deduct logic here
+      console.log(`Deducting ${amount} from product ${selectedProduct.id}`);
+      // After deducting, you may want to refresh the products list
+      // For example:
+      // await updateProductStock(selectedProduct.id, amount);
+      // await fetchProducts();
+      
+      handleDeductSuccess();
+    } catch (error) {
+      console.error("Error deducting product:", error);
+      // Handle the error appropriately
+    }
+  };
+
   const handleDeductSuccess = () => {
     setSelectedProduct(null);
     // Optionally, refresh the products list here
@@ -86,6 +104,8 @@ const Products = () => {
           handleUpdateSuccess={handleUpdateSuccess}
           handleDeleteSuccess={handleDeleteSuccess}
           handleDeleteCancel={handleDeleteCancel}
+          highlightedProductId={selectedProduct?.id || null}
+          handleDeduct={handleDeduct}
         />
       )}
     </div>
