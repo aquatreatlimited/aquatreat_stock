@@ -10,73 +10,72 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader } from "@/components
 import AddCategoryForm from "./AddCategoryForm";
 import AddProductForm from "./AddProductForm";
 import { useState } from "react";
+import Link from "next/link";
 
 const Sidebar = () => {
-  const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false);
-  const [isProductDialogOpen, setIsProductDialogOpen] = useState(false);
-
-  const handleCategoryAdded = () => {
-    setIsCategoryDialogOpen(false);
-  };
-
-  const handleProductAdded = () => {
-    setIsProductDialogOpen(false);
-  };
+  const [showAddCategoryDialog, setShowAddCategoryDialog] = useState(false);
+  const [showAddProductDialog, setShowAddProductDialog] = useState(false);
 
   const handleAddCategory = () => {
-    setIsProductDialogOpen(false);
-    setIsCategoryDialogOpen(true);
+    setShowAddProductDialog(false);
+    setShowAddCategoryDialog(true);
   };
 
   return (
-    <div className='flex flex-col p-4 space-y-6 text-gray-800'>
-      <a href='/' className='flex items-center space-x-2'>
-        <FaHome className='w-6 h-6' />
-        <span>Dashboard</span>
-      </a>
-      <a href='/in-stock' className='flex items-center space-x-2'>
-        <FaBoxOpen className='w-6 h-6' />
-        <span>In Stock</span>
-      </a>
-      <a href='/products' className='flex items-center space-x-2'>
-        <FaShoppingCart className='w-6 h-6' />
-        <span>Products</span>
-      </a>
-      <a href='/returns' className='flex items-center space-x-2'>
-        <FaUndo className='w-6 h-6' />
-        <span>Returns</span>
-      </a>
-
-      <Dialog open={isCategoryDialogOpen} onOpenChange={setIsCategoryDialogOpen}>
-        <DialogTrigger asChild>
-          <Button className='bg-darkBlue text-white'>
-            <FaPlus className="mr-2" /> Add Category
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <h2>Add Category</h2>
-          </DialogHeader>
-          <AddCategoryForm onSuccess={handleCategoryAdded} />
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={isProductDialogOpen} onOpenChange={setIsProductDialogOpen}>
-        <DialogTrigger asChild>
-          <Button className='bg-darkBlue text-white'>
-            <FaPlus className="mr-2" /> Add Product
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <h2>Add Product</h2>
-          </DialogHeader>
-          <AddProductForm
-            onSuccess={handleProductAdded}
-            onAddCategory={handleAddCategory}
-          />
-        </DialogContent>
-      </Dialog>
+    <div className="flex flex-col h-full">
+      <div className="flex-grow space-y-3">
+        <Button variant="ghost" className="w-full justify-start" asChild>
+          <Link href="/">
+            <FaHome className="mr-2 h-4 w-4" />
+            Dashboard
+          </Link>
+        </Button>
+        <Button variant="ghost" className="w-full justify-start" asChild>
+          <Link href="/products">
+            <FaBoxOpen className="mr-2 h-4 w-4" />
+            Products
+          </Link>
+        </Button>
+        <Button variant="ghost" className="w-full justify-start" asChild>
+          <Link href="/sales">
+            <FaShoppingCart className="mr-2 h-4 w-4" />
+            Sales
+          </Link>
+        </Button>
+        <Button variant="ghost" className="w-full justify-start" asChild>
+          <Link href="/returns">
+            <FaUndo className="mr-2 h-4 w-4" />
+            Returns
+          </Link>
+        </Button>
+        <Dialog open={showAddCategoryDialog} onOpenChange={setShowAddCategoryDialog}>
+          <DialogTrigger asChild>
+            <Button variant="ghost" className="w-full bg-darkBlue text-white justify-start">
+              <FaPlus className="mr-2 h-4 w-4" />
+              Add Category
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>Add Category</DialogHeader>
+            <AddCategoryForm onSuccess={() => setShowAddCategoryDialog(false)} />
+          </DialogContent>
+        </Dialog>
+        <Dialog open={showAddProductDialog} onOpenChange={setShowAddProductDialog}>
+          <DialogTrigger asChild>
+            <Button variant="ghost" className="w-full justify-start bg-darkBlue text-white">
+              <FaPlus className="mr-2 h-4 w-4" />
+              Add Product
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>Add Product</DialogHeader>
+            <AddProductForm 
+              onSuccess={() => setShowAddProductDialog(false)} 
+              onAddCategory={handleAddCategory}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
     </div>
   );
 };

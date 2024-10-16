@@ -1,0 +1,17 @@
+{
+  "name": "Aquatreat Stock Management",
+  "short_name": "Aquatreat",
+  "description": "Stock Management System for Aquatreat",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#E0F0FF",
+  "theme_color": "#1F7CFF",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

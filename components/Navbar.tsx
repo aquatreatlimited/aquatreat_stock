@@ -119,6 +119,7 @@ const Navbar = () => {
 
   return (
     <div className='flex justify-between sticky top-0 z-50 items-center p-4 bg-[#B0D3FF] text-[#001540]'>
+      
       {/* Left: Logo and Menu Trigger */}
       <div className='flex items-center space-x-4 px-4'>
         <div className='text-xl font-bold'>

@@ -28,7 +28,7 @@ const Products = () => {
         setLoading(true);
         const productsSnapshot = await getDocs(collection(db, "products"));
         const productList = productsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
-        console.log("Fetched products:", productList); // Debug log
+        console.log("Fetched products:", productList); 
         setProducts(productList);
       } catch (err) {
         console.error("Error fetching products:", err);

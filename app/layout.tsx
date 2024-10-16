@@ -13,6 +13,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Aquatreat Stock Management",
   description: "Stock Management System",
+  manifest: "/manifest.json",
   icons: {
     icon: "/favi.png",
   },
