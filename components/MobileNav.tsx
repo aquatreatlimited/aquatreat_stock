@@ -43,6 +43,7 @@ interface Deduction {
 const MobileNav: React.FC = () => {
   const [stockAlerts, setStockAlerts] = useState<Product[]>([]);
   const [topSelling, setTopSelling] = useState<TopSellingProduct[]>([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const lowStockQuery = query(
@@ -167,14 +168,14 @@ const MobileNav: React.FC = () => {
             </div>
           </PopoverContent>
         </Popover>
-        <Sheet>
+        <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon">
               <FaBars className='w-5 h-5' />
             </Button>
           </SheetTrigger>
-          <SheetContent>
-            <Sidebar />
+          <SheetContent side="left">
+            <Sidebar onClose={() => setIsSidebarOpen(false)} />
           </SheetContent>
         </Sheet>
       </div>

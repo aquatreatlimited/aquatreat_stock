@@ -30,7 +30,7 @@ const Instock: React.FC = () => {
     setLoading(true);
     let productsQuery = query(
       collection(db, "products"),
-      orderBy("stock", "desc"), // Change this line
+      orderBy("stock", "desc"),
       limit(ITEMS_PER_PAGE)
     );
 
@@ -44,7 +44,7 @@ const Instock: React.FC = () => {
     const productsSnapshot = await getDocs(productsQuery);
     const productList = productsSnapshot.docs
       .map(doc => ({ id: doc.id, ...doc.data() } as Product))
-      .filter(product => product.stock > 0); // Filter out products with stock <= 0
+      .filter(product => product.stock > 0);
     setProducts(productList);
     setCurrentPage(page);
 
@@ -74,8 +74,8 @@ const Instock: React.FC = () => {
   );
 
   return (
-    <div className='p-6 space-y-6'>
-      <h2 className='text-2xl font-semibold mb-4'>In Stock Products</h2>
+    <div className='bg-white p-3 md:p-6 rounded-lg shadow-md text-deepNavy mt-4 md:mt-8'>
+      <h2 className='text-xl md:text-2xl font-semibold mb-4'>In Stock Products</h2>
       <div className='flex items-center mb-4'>
         <FaSearch className='text-gray-400 mr-2' />
         <Input
@@ -86,29 +86,31 @@ const Instock: React.FC = () => {
           className='max-w-xs'
         />
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Product Name</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Stock</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredProducts.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.categoryName}</TableCell>
-              <TableCell>
-                {product.stock}
-                {product.isDivisible && product.fractionRemaining !== undefined
-                  ? ` + ${product.fractionRemaining} ${product.fractionPerUnit}`
-                  : ''}
-              </TableCell>
+      <div className="overflow-x-auto">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Product Name</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Stock</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {filteredProducts.map((product) => (
+              <TableRow key={product.id}>
+                <TableCell>{product.name}</TableCell>
+                <TableCell>{product.categoryName}</TableCell>
+                <TableCell>
+                  {product.stock}
+                  {product.isDivisible && product.fractionRemaining !== undefined
+                    ? ` + ${product.fractionRemaining} ${product.fractionPerUnit}`
+                    : ''}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
       <Pagination>
         <PaginationContent>
           <PaginationItem>

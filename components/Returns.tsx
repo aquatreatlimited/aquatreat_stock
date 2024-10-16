@@ -6,6 +6,7 @@ import { FaSearch } from "react-icons/fa";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, limit, startAfter, getDocs, Timestamp } from "firebase/firestore";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { format } from 'date-fns';
 
 interface Return {
   id: string;
@@ -75,8 +76,8 @@ const Returns: React.FC = () => {
   );
 
   return (
-    <div className='p-6 space-y-6'>
-      <h2 className='text-2xl font-semibold mb-4'>Returns</h2>
+    <div className='bg-white p-3 md:p-6 rounded-lg shadow-md text-deepNavy mt-4 md:mt-8'>
+      <h2 className='text-xl md:text-2xl font-semibold mb-4'>Returns</h2>
       <div className='flex items-center mb-4'>
         <FaSearch className='text-gray-400 mr-2' />
         <Input
@@ -87,24 +88,26 @@ const Returns: React.FC = () => {
           className='max-w-xs'
         />
       </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Product Name</TableHead>
-            <TableHead>Amount</TableHead>
-            <TableHead>Date</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredReturns.map((returnItem) => (
-            <TableRow key={returnItem.id}>
-              <TableCell>{returnItem.productName}</TableCell>
-              <TableCell>{returnItem.amount}</TableCell>
-              <TableCell>{returnItem.date.toLocaleString()}</TableCell>
+      <div className="overflow-x-auto">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Product Name</TableHead>
+              <TableHead>Amount</TableHead>
+              <TableHead>Date and Time</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {filteredReturns.map((returnItem) => (
+              <TableRow key={returnItem.id}>
+                <TableCell>{returnItem.productName}</TableCell>
+                <TableCell>{returnItem.amount} units</TableCell>
+                <TableCell>{format(returnItem.date, "dd/MM/yyyy 'at' hh:mm:ss a")}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
       <Pagination>
         <PaginationContent>
           <PaginationItem>

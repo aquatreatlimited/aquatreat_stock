@@ -52,6 +52,7 @@ interface Deduction {
 const Navbar = () => {
   const [stockAlerts, setStockAlerts] = useState<Product[]>([]);
   const [topSelling, setTopSelling] = useState<TopSellingProduct[]>([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const lowStockQuery = query(
@@ -137,14 +138,14 @@ const Navbar = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Sheet>
+                <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
                   <SheetTrigger asChild>
                     <Button variant="ghost" size="icon">
                       <FaBars className='w-6 h-6' />
                     </Button>
                   </SheetTrigger>
-                  <SheetContent>
-                    <Sidebar />
+                  <SheetContent side="right">
+                    <Sidebar onClose={() => setIsSidebarOpen(false)} />
                   </SheetContent>
                 </Sheet>
               </TooltipTrigger>
