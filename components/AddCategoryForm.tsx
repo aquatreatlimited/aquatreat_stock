@@ -115,21 +115,21 @@ const AddCategoryForm: React.FC<AddCategoryFormProps> = ({ onSuccess }) => {
           name='name'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Category Name</FormLabel>
+              <FormLabel className="text-sm md:text-base">Category Name</FormLabel>
               <FormControl>
-                <Input placeholder='Enter category name' {...field} />
+                <Input placeholder='Enter category name' {...field} className="text-sm md:text-base" />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs md:text-sm" />
             </FormItem>
           )}
         />
 
         {/* Submit Button */}
-        <Button type='submit' className='bg-darkBlue text-white' disabled={isSubmitting}>
+        <Button type='submit' className='bg-darkBlue text-white w-full text-sm md:text-base' disabled={isSubmitting}>
           {isSubmitting ? "Adding Category..." : "Add Category"}
         </Button>
 
-        {submitError && <p className="text-red-500">{submitError}</p>}
+        {submitError && <p className="text-red-500 text-xs md:text-sm">{submitError}</p>}
       </form>
     </Form>
   );

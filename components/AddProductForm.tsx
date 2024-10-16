@@ -115,11 +115,11 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSuccess, onAddCategor
           name='name'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Product Name</FormLabel>
+              <FormLabel className="text-sm md:text-base">Product Name</FormLabel>
               <FormControl>
-                <Input placeholder='Enter product name' {...field} />
+                <Input placeholder='Enter product name' {...field} className="text-sm md:text-base" />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs md:text-sm" />
             </FormItem>
           )}
         />
@@ -130,16 +130,16 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSuccess, onAddCategor
           name='categoryName'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Category</FormLabel>
+              <FormLabel className="text-sm md:text-base">Category</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="text-sm md:text-base">
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   {categories.map((category) => (
-                    <SelectItem key={category} value={category}>
+                    <SelectItem key={category} value={category} className="text-sm md:text-base">
                       {category}
                     </SelectItem>
                   ))}
@@ -147,7 +147,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSuccess, onAddCategor
                     <Button
                       type="button"
                       variant="outline"
-                      className="w-full"
+                      className="w-full text-sm md:text-base"
                       onClick={(e) => {
                         e.preventDefault();
                         onAddCategory();
@@ -158,7 +158,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSuccess, onAddCategor
                   </div>
                 </SelectContent>
               </Select>
-              <FormMessage />
+              <FormMessage className="text-xs md:text-sm" />
             </FormItem>
           )}
         />
@@ -248,11 +248,11 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ onSuccess, onAddCategor
         )}
 
         {/* Submit Button */}
-        <Button type='submit' className='bg-darkBlue text-white' disabled={isSubmitting}>
+        <Button type='submit' className='bg-darkBlue text-white w-full text-sm md:text-base' disabled={isSubmitting}>
           {isSubmitting ? "Adding Product..." : "Add Product"}
         </Button>
 
-        {submitError && <p className="text-red-500">{submitError}</p>}
+        {submitError && <p className="text-red-500 text-xs md:text-sm">{submitError}</p>}
       </form>
     </Form>
   );

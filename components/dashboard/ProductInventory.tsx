@@ -156,55 +156,57 @@ const ProductInventory: React.FC<ProductInventoryProps> = ({
   }));
 
   return (
-    <div className='bg-white p-6 rounded-lg shadow-md text-deepNavy'>
-      <div className='flex justify-between items-center mb-4'>
-        <h2 className='text-2xl font-semibold'>Product Inventory</h2>
+    <div className='bg-white p-3 md:p-6 rounded-lg shadow-md text-deepNavy'>
+      <div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-4'>
+        <h2 className='text-xl md:text-2xl font-semibold mb-2 md:mb-0'>Product Inventory</h2>
         <Search products={allProducts} onSelect={handleSearchSelect} />
       </div>
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList>
-          {categories.map((category) => (
-            <HoverCard key={category.id} openDelay={300} closeDelay={200}>
-              <HoverCardTrigger asChild>
-                <TabsTrigger
-                  value={category.id}
-                  className={`relative ${
-                    activeTab === category.id
-                      ? "bg-midLightBlue text-[darkBlue]"
-                      : ""
-                  }`}>
-                  {category.name}
-                </TabsTrigger>
-              </HoverCardTrigger>
-              <HoverCardContent className='w-auto' side='top'>
-                <div className='flex flex-col space-y-2'>
-                  <Button
-                    variant='outline'
-                    size='sm'
-                    onClick={() =>
-                      handleRenameCategory(category.id, category.name)
-                    }>
-                    <FaEdit className='mr-2' /> Rename Category
-                  </Button>
-                  <Button
-                    variant='outline'
-                    size='sm'
-                    onClick={() => onAddProductToCategory(category.name)}>
-                    <FaPlus className='mr-2' /> Add Product
-                  </Button>
-                  <Button
-                    variant='destructive'
-                    size='sm'
-                    onClick={() =>
-                      handleDeleteCategory(category.id, category.name)
-                    }>
-                    <FaTrash className='mr-2' /> Delete Category
-                  </Button>
-                </div>
-              </HoverCardContent>
-            </HoverCard>
-          ))}
-        </TabsList>
+        <div className="overflow-x-auto">
+          <TabsList className="inline-flex w-max">
+            {categories.map((category) => (
+              <HoverCard key={category.id} openDelay={300} closeDelay={200}>
+                <HoverCardTrigger asChild>
+                  <TabsTrigger
+                    value={category.id}
+                    className={`relative ${
+                      activeTab === category.id
+                        ? "bg-midLightBlue text-[darkBlue]"
+                        : ""
+                    }`}>
+                    {category.name}
+                  </TabsTrigger>
+                </HoverCardTrigger>
+                <HoverCardContent className='w-auto' side='top'>
+                  <div className='flex flex-col space-y-2'>
+                    <Button
+                      variant='outline'
+                      size='sm'
+                      onClick={() =>
+                        handleRenameCategory(category.id, category.name)
+                      }>
+                      <FaEdit className='mr-2' /> Rename Category
+                    </Button>
+                    <Button
+                      variant='outline'
+                      size='sm'
+                      onClick={() => onAddProductToCategory(category.name)}>
+                      <FaPlus className='mr-2' /> Add Product
+                    </Button>
+                    <Button
+                      variant='destructive'
+                      size='sm'
+                      onClick={() =>
+                        handleDeleteCategory(category.id, category.name)
+                      }>
+                      <FaTrash className='mr-2' /> Delete Category
+                    </Button>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            ))}
+          </TabsList>
+        </div>
         {categories.map((category) => (
           <TabsContent key={category.id} value={category.id}>
             {products.filter((p) => p.categoryName === category.name).length >

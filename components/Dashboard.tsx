@@ -231,7 +231,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className='p-6 space-y-6'>
+    <div className='p-2 md:p-6 space-y-4 md:space-y-6'>
       <ProductInventory 
         products={products} 
         categories={categories}
@@ -259,7 +259,7 @@ const Dashboard = () => {
 
       {/* Add Product Dialog */}
       <Dialog open={isAddProductDialogOpen} onOpenChange={setIsAddProductDialogOpen}>
-        <DialogContent>
+        <DialogContent className="w-[90vw] max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Add Product to {selectedCategory}</DialogTitle>
           </DialogHeader>

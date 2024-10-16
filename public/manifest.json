@@ -1,6 +1,6 @@
 {
   "name": "Aquatreat Stock Management",
-  "short_name": "Aquatreat",
+  "short_name": "Aquatreat POS",
   "description": "Stock Management System for Aquatreat",
   "start_url": "/",
   "display": "standalone",

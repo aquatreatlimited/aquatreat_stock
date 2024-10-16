@@ -213,87 +213,56 @@ const Deductions: React.FC<DeductionsProps> = ({
   };
 
   return (
-    <div className='p-6 space-y-6 bg-white rounded-lg text-deepNavy'>
-      <h2 className='text-2xl font-semibold mb-4'>Deductions</h2>
-      <div className='flex space-x-4 mb-4'>
-        <Input
-          type='text'
-          placeholder='Search by product name...'
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className='max-w-xs'
-        />
-        <div className='flex flex-row items-center space-x-1'>
-          <h2 className='font-bold text-deepNavy'>From:</h2>
-          <Input
-            type='date'
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className='max-w-xs'
-          />
-        </div>
-        <div className='flex flex-row items-center space-x-1'>
-          <h2 className='font-bold text-deepNavy'>To:</h2>
-          <Input
-            type='date'
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            className='max-w-xs'
-          />
-        </div>
-        <Button onClick={handleSearch} className="bg-darkBlue">
-          <FaSearch className='mr-2' /> Search
-        </Button>
-        <Button onClick={clearSearch} variant='outline'>
-          <FaTimes className='mr-2' /> Clear Search
-        </Button>
-      </div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Product Name</TableHead>
-            <TableHead>Amount</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredDeductions.map((deduction) => (
-            <TableRow key={deduction.id}>
-              <TableCell>{deduction.productName}</TableCell>
-              <TableCell>{deduction.amount}</TableCell>
-              <TableCell>{deduction.date.toLocaleString()}</TableCell>
-              <TableCell>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant='ghost' className='h-8 w-8 p-0'>
-                      <FaEllipsisV className='h-4 w-4' />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className='w-56'>
-                    <div className='grid gap-4'>
-                      <Button
-                        className='w-full justify-start'
-                        variant='ghost'
-                        onClick={() => handleReturnDeduction(deduction)}>
-                        <FaUndo className='mr-2 h-4 w-4' />
-                        Return
-                      </Button>
-                      <Button
-                        className='w-full justify-start text-red-600 hover:text-red-600 hover:bg-red-100'
-                        variant='ghost'
-                        onClick={() => handleDeleteDeduction(deduction.id)}>
-                        <FaTrash className='mr-2 h-4 w-4' />
-                        Delete
-                      </Button>
-                    </div>
-                  </PopoverContent>
-                </Popover>
-              </TableCell>
+    <div className="mt-4 md:mt-8">
+      <h2 className="text-xl md:text-2xl font-bold mb-2 md:mb-4">Recent Deductions</h2>
+      <div className="overflow-x-auto">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Product Name</TableHead>
+              <TableHead>Amount</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Action</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {filteredDeductions.map((deduction) => (
+              <TableRow key={deduction.id}>
+                <TableCell>{deduction.productName}</TableCell>
+                <TableCell>{deduction.amount}</TableCell>
+                <TableCell>{deduction.date.toLocaleString()}</TableCell>
+                <TableCell>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant='ghost' className='h-8 w-8 p-0'>
+                        <FaEllipsisV className='h-4 w-4' />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className='w-56'>
+                      <div className='grid gap-4'>
+                        <Button
+                          className='w-full justify-start'
+                          variant='ghost'
+                          onClick={() => handleReturnDeduction(deduction)}>
+                          <FaUndo className='mr-2 h-4 w-4' />
+                          Return
+                        </Button>
+                        <Button
+                          className='w-full justify-start text-red-600 hover:text-red-600 hover:bg-red-100'
+                          variant='ghost'
+                          onClick={() => handleDeleteDeduction(deduction.id)}>
+                          <FaTrash className='mr-2 h-4 w-4' />
+                          Delete
+                        </Button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
       <Pagination>
         <PaginationContent>
           <PaginationItem>

@@ -22,27 +22,27 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-grow space-y-3">
-        <Button variant="ghost" className="w-full justify-start" asChild>
+    <div className="flex flex-col h-full p-2 md:p-4">
+      <div className="flex-grow space-y-2 md:space-y-3">
+        <Button variant="ghost" className="w-full justify-start text-sm md:text-base" asChild>
           <Link href="/">
             <FaHome className="mr-2 h-4 w-4" />
             Dashboard
           </Link>
         </Button>
-        <Button variant="ghost" className="w-full justify-start" asChild>
+        <Button variant="ghost" className="w-full justify-start text-sm md:text-base" asChild>
           <Link href="/products">
             <FaBoxOpen className="mr-2 h-4 w-4" />
             Products
           </Link>
         </Button>
-        <Button variant="ghost" className="w-full justify-start" asChild>
+        <Button variant="ghost" className="w-full justify-start text-sm md:text-base" asChild>
           <Link href="/sales">
             <FaShoppingCart className="mr-2 h-4 w-4" />
             Sales
           </Link>
         </Button>
-        <Button variant="ghost" className="w-full justify-start" asChild>
+        <Button variant="ghost" className="w-full justify-start text-sm md:text-base" asChild>
           <Link href="/returns">
             <FaUndo className="mr-2 h-4 w-4" />
             Returns

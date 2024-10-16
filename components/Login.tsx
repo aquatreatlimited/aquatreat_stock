@@ -35,32 +35,38 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <form onSubmit={handleLogin} className="space-y-4 w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-        <Image src='/logo.png' alt='Logo' width={170} height={100} className='mx-auto mb-6' />
-        <h2 className="text-2xl font-bold text-darkBlue text-center mb-6">Login</h2>
-        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <Button type="submit" className="w-full bg-darkBlue text-white" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </Button>
-        <p className="text-center text-darkBlue">
-          Don't have an account? <Link href="/signup" className="text-blue-500 hover:underline font-bold">Sign Up</Link>
-        </p>
-      </form>
+    <div className="flex items-center justify-center min-h-screen bg-[#E0F0FF] p-4">
+      <div className="w-full max-w-md p-4 md:p-8 bg-white rounded-lg shadow-md">
+        <div className="flex justify-center mb-4 md:mb-8">
+          <Image src="/logo.png" alt="Logo" width={150} height={75} className="w-[90%] h-[75px] md:w-[200px] md:h-[70px]" />
+        </div>
+        <h1 className="text-xl md:text-3xl font-bold text-center mb-4 md:mb-6">Login</h1>
+        <form onSubmit={handleLogin} className="space-y-4">
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full"
+          />
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full"
+          />
+          <Button type="submit" className="w-full bg-darkBlue text-white" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </Button>
+          <p className="text-center text-sm md:text-base text-darkBlue">
+            Don't have an account? <Link href="/signup" className="text-blue-500 hover:underline font-bold">Sign Up</Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
