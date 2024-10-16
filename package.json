@@ -28,6 +28,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "firebase": "^10.14.0",
     "fuse.js": "^7.0.0",

@@ -86,7 +86,7 @@ const ProductTable: React.FC<ProductTableProps> = ({
               )}>
               <TableCell>{product.name}</TableCell>
               <TableCell>
-                {product.stock}
+                {product.stock} units
                 {product.isDivisible && product.fractionRemaining !== undefined
                   ? ` + ${product.fractionRemaining} ${product.fractionPerUnit}`
                   : ""}

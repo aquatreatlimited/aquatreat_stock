@@ -47,6 +47,7 @@ import {
 } from "@/components/ui/pagination";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { format } from 'date-fns'; // Add this import for date formatting
 
 interface Deduction {
   id: string;
@@ -145,9 +146,8 @@ const Deductions: React.FC<DeductionsProps> = ({
   }, []);
 
   const handleSearch = () => {
-    // The search is now handled by the real-time listener
-    // You might want to reset the currentPage here
     setCurrentPage(1);
+    // The actual filtering is now handled in the useEffect
   };
 
   const handlePageChange = (page: number) => {
@@ -213,15 +213,23 @@ const Deductions: React.FC<DeductionsProps> = ({
   };
 
   return (
-    <div className="mt-4 md:mt-8">
+    <div className="bg-white p-3 md:p-6 rounded-lg shadow-md text-deepNavy mt-4 md:mt-8">
       <h2 className="text-xl md:text-2xl font-bold mb-2 md:mb-4">Recent Deductions</h2>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+        <Input
+          placeholder="Search products..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full md:w-auto"
+        />
+      </div>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Product Name</TableHead>
               <TableHead>Amount</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead>Date and Time</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
@@ -229,8 +237,8 @@ const Deductions: React.FC<DeductionsProps> = ({
             {filteredDeductions.map((deduction) => (
               <TableRow key={deduction.id}>
                 <TableCell>{deduction.productName}</TableCell>
-                <TableCell>{deduction.amount}</TableCell>
-                <TableCell>{deduction.date.toLocaleString()}</TableCell>
+                <TableCell>{deduction.amount} units</TableCell>
+                <TableCell>{format(deduction.date, "dd/MM/yyyy 'at' hh:mm:ss a")}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
