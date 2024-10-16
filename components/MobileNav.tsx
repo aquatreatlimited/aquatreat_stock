@@ -20,6 +20,7 @@ import {
   Timestamp,
   where,
 } from "firebase/firestore";
+import Logout from './Logout';
 
 interface Product {
   id: string;
@@ -113,16 +114,22 @@ const MobileNav: React.FC = () => {
   return (
     <div className='flex justify-between items-center p-2 bg-[#B0D3FF] text-[#001540]'>
       <Link href='/'>
-        <Image src='/logo.png' alt='Logo' width={120} height={70} className="w-[120px] h-[40px]" />
+        <Image
+          src='/logo.png'
+          alt='Logo'
+          width={120}
+          height={70}
+          className='w-[120px] h-[40px]'
+        />
       </Link>
-      <div className="flex items-center space-x-2">
+      <div className='flex items-center space-x-2'>
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button variant='ghost' size='icon'>
               <FaChartLine className='text-darkBlue w-5 h-5' />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-64">
+          <PopoverContent className='w-64'>
             <div className='bg-white'>
               <div className='flex items-center space-x-2 mb-2'>
                 <FaChartLine className='text-darkBlue w-5 h-5' />
@@ -131,12 +138,18 @@ const MobileNav: React.FC = () => {
               <div>
                 {topSelling.length > 0 ? (
                   topSelling.map((product, index) => (
-                    <p key={index} className="text-sm">
-                      {product.productName}: <span className='font-bold'>{product.totalDeductions}</span> units
+                    <p key={index} className='text-sm'>
+                      {product.productName}:{" "}
+                      <span className='font-bold'>
+                        {product.totalDeductions}
+                      </span>{" "}
+                      units
                     </p>
                   ))
                 ) : (
-                  <p className="text-sm">No top selling products data available.</p>
+                  <p className='text-sm'>
+                    No top selling products data available.
+                  </p>
                 )}
               </div>
             </div>
@@ -144,11 +157,11 @@ const MobileNav: React.FC = () => {
         </Popover>
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button variant='ghost' size='icon'>
               <FaExclamationTriangle className='text-red-500 w-5 h-5' />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-64">
+          <PopoverContent className='w-64'>
             <div className='bg-white'>
               <div className='flex items-center space-x-2 mb-2'>
                 <FaExclamationTriangle className='text-red-500 w-5 h-5' />
@@ -157,12 +170,14 @@ const MobileNav: React.FC = () => {
               <div>
                 {stockAlerts.length > 0 ? (
                   stockAlerts.map((alert) => (
-                    <p key={alert.id} className="text-sm">
-                      {alert.name}: <span className='font-bold'>{alert.stock}</span> units remaining
+                    <p key={alert.id} className='text-sm'>
+                      {alert.name}:{" "}
+                      <span className='font-bold'>{alert.stock}</span> units
+                      remaining
                     </p>
                   ))
                 ) : (
-                  <p className="text-sm">No products with low stock.</p>
+                  <p className='text-sm'>No products with low stock.</p>
                 )}
               </div>
             </div>
@@ -170,12 +185,15 @@ const MobileNav: React.FC = () => {
         </Popover>
         <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button variant='ghost' size='icon'>
               <FaBars className='w-5 h-5' />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left">
+          <SheetContent side='left'>
             <Sidebar onClose={() => setIsSidebarOpen(false)} />
+            <div className='-mt-10'>
+              <Logout />
+            </div>
           </SheetContent>
         </Sheet>
       </div>
