@@ -44,10 +44,12 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
+  PaginationEllipsis,
 } from "@/components/ui/pagination";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { format } from 'date-fns'; // Add this import for date formatting
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface Deduction {
   id: string;
@@ -92,6 +94,8 @@ const Deductions: React.FC<DeductionsProps> = ({
   const [totalPages, setTotalPages] = useState(1);
 
   const { toast } = useToast();
+
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
   useEffect(() => {
     const fetchDeductions = () => {
@@ -212,6 +216,98 @@ const Deductions: React.FC<DeductionsProps> = ({
     }
   };
 
+  const renderPaginationItems = () => {
+    const items = [];
+    const maxVisiblePages = isMobile ? 3 : 5;
+
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        items.push(
+          <PaginationItem key={i}>
+            <PaginationLink
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(i);
+              }}
+              isActive={currentPage === i}
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+    } else {
+      items.push(
+        <PaginationItem key={1}>
+          <PaginationLink
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(1);
+            }}
+            isActive={currentPage === 1}
+          >
+            1
+          </PaginationLink>
+        </PaginationItem>
+      );
+
+      if (currentPage > 3) {
+        items.push(
+          <PaginationItem key="ellipsis-start">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+
+      for (let i = start; i <= end; i++) {
+        items.push(
+          <PaginationItem key={i}>
+            <PaginationLink
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handlePageChange(i);
+              }}
+              isActive={currentPage === i}
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+
+      if (currentPage < totalPages - 2) {
+        items.push(
+          <PaginationItem key="ellipsis-end">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+
+      items.push(
+        <PaginationItem key={totalPages}>
+          <PaginationLink
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(totalPages);
+            }}
+            isActive={currentPage === totalPages}
+          >
+            {totalPages}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+
+    return items;
+  };
+
   return (
     <div className="bg-white p-3 md:p-6 rounded-lg shadow-md text-deepNavy mt-4 md:mt-8">
       <h2 className="text-xl md:text-2xl font-bold mb-2 md:mb-4">Recent Deductions</h2>
@@ -284,19 +380,7 @@ const Deductions: React.FC<DeductionsProps> = ({
               }}
             />
           </PaginationItem>
-          {[...Array(totalPages)].map((_, index) => (
-            <PaginationItem key={index}>
-              <PaginationLink
-                href='#'
-                onClick={(e) => {
-                  e.preventDefault();
-                  handlePageChange(index + 1);
-                }}
-                isActive={currentPage === index + 1}>
-                {index + 1}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
+          {renderPaginationItems()}
           <PaginationItem>
             <PaginationNext
               href='#'
