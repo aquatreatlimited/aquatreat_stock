@@ -37,7 +37,7 @@ const DeleteDeductionDialog: React.FC<DeleteDeductionDialogProps> = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+          <AlertDialogAction onClick={handleDelete} className='bg-red-500 text-white hover:bg-red-600'>Delete</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
