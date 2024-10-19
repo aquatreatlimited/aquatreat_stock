@@ -36,6 +36,11 @@ import {
   Query,
   DocumentData,
   onSnapshot,
+  doc,
+  updateDoc,
+  addDoc,
+  deleteDoc,
+  increment,
 } from "firebase/firestore";
 import {
   Pagination,
@@ -50,8 +55,10 @@ import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { format } from 'date-fns'; // Add this import for date formatting
 import { useMediaQuery } from "@/hooks/use-media-query";
+import ReturnDeductionDialog from './ReturnDeductionDialog';
+import DeleteDeductionDialog from './DeleteDeductionDialog';
 
-interface Deduction {
+export interface Deduction {
   id: string;
   productId: string;
   productName: string;
@@ -92,6 +99,9 @@ const Deductions: React.FC<DeductionsProps> = ({
   const [endDate, setEndDate] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [selectedDeduction, setSelectedDeduction] = useState<Deduction | null>(null);
+  const [isReturnDialogOpen, setIsReturnDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const { toast } = useToast();
 
@@ -172,18 +182,40 @@ const Deductions: React.FC<DeductionsProps> = ({
     setCurrentPage(1);
   };
 
-  const handleReturnDeduction = async (deduction: Deduction) => {
+  const handleReturnDeduction = async (deduction: Deduction, amount: number) => {
     try {
-      await onReturnDeduction(deduction);
+      // Update the deduction
+      const deductionRef = doc(db, "deductions", deduction.id);
+      await updateDoc(deductionRef, {
+        amount: deduction.amount - amount
+      });
+
+      // Add to returns collection
+      await addDoc(collection(db, "returns"), {
+        productId: deduction.productId,
+        productName: deduction.productName,
+        amount: amount,
+        date: new Date(),
+      });
+
+      // Update the product stock
+      const productRef = doc(db, "products", deduction.productId);
+      await updateDoc(productRef, {
+        stock: increment(amount)
+      });
+
       toast({
         title: "Deduction Returned",
-        description: `Successfully returned ${deduction.amount} of ${deduction.productName}`,
+        description: `Successfully returned ${amount} units of ${deduction.productName}`,
         variant: "default",
         className: "bg-midBlue text-white",
-        action: (
-          <ToastAction altText="Dismiss">Dismiss</ToastAction>
-        ),
       });
+
+      // If the entire amount was returned, delete the deduction
+      if (deduction.amount === amount) {
+        await deleteDoc(deductionRef);
+      }
+
     } catch (error) {
       console.error("Error returning deduction:", error);
       toast({
@@ -202,9 +234,6 @@ const Deductions: React.FC<DeductionsProps> = ({
         description: "Successfully deleted the deduction",
         variant: "default",
         className: "bg-darkBlue text-white",
-        action: (
-          <ToastAction altText="Dismiss">Dismiss</ToastAction>
-        ),
       });
     } catch (error) {
       console.error("Error deleting deduction:", error);
@@ -347,14 +376,20 @@ const Deductions: React.FC<DeductionsProps> = ({
                         <Button
                           className='w-full justify-start'
                           variant='ghost'
-                          onClick={() => handleReturnDeduction(deduction)}>
+                          onClick={() => {
+                            setSelectedDeduction(deduction);
+                            setIsReturnDialogOpen(true);
+                          }}>
                           <FaUndo className='mr-2 h-4 w-4' />
                           Return
                         </Button>
                         <Button
                           className='w-full justify-start text-red-600 hover:text-red-600 hover:bg-red-100'
                           variant='ghost'
-                          onClick={() => handleDeleteDeduction(deduction.id)}>
+                          onClick={() => {
+                            setSelectedDeduction(deduction);
+                            setIsDeleteDialogOpen(true);
+                          }}>
                           <FaTrash className='mr-2 h-4 w-4' />
                           Delete
                         </Button>
@@ -394,6 +429,22 @@ const Deductions: React.FC<DeductionsProps> = ({
           </PaginationItem>
         </PaginationContent>
       </Pagination>
+      
+      {selectedDeduction && (
+        <>
+          <ReturnDeductionDialog
+            deduction={selectedDeduction}
+            isOpen={isReturnDialogOpen}
+            onClose={() => setIsReturnDialogOpen(false)}
+            onReturn={handleReturnDeduction}
+          />
+          <DeleteDeductionDialog
+            isOpen={isDeleteDialogOpen}
+            onClose={() => setIsDeleteDialogOpen(false)}
+            onDelete={() => handleDeleteDeduction(selectedDeduction.id)}
+          />
+        </>
+      )}
     </div>
   );
 };
